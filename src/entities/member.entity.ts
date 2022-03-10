@@ -1,30 +1,30 @@
-import { Entity, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 import { Field, ObjectType } from 'type-graphql'
 
 @ObjectType()
 @Entity()
 export class Member {
-  @Field()
-  @Property()
+  @Field({ nullable: true })
+  @PrimaryKey({ nullable: true })
   id!: string
 
-  @Field()
+  @Field({ nullable: true })
   @Property()
   username!: string
 
-  @Field()
+  @Field({ nullable: true })
   @Property()
   fullname!: string
 
-  @Field()
+  @Field({ nullable: true })
   @Property()
   image?: string
 
-  @Field(_ => [String])
+  @Field(_ => [String], { nullable: true })
   @Property()
   starredIds?: string[]
 
-  @Field(_ => [String])
+  @Field(_ => [String], { nullable: true })
   @Property()
   watchlist?: string[]
 }

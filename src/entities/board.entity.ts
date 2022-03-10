@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType } from 'type-graphql'
 import { ArchivedItem } from './archive.entity'
 
 import { Label } from './label.entity'
@@ -9,11 +9,11 @@ import { Member } from './member.entity'
 @ObjectType()
 @Entity()
 export class BoardBackground {
-  @Field()
+  @Field({ nullable: true })
   @Property({ nullable: true })
   color: string
 
-  @Field()
+  @Field({ nullable: true })
   @Property()
   image?: string
 }
@@ -21,7 +21,7 @@ export class BoardBackground {
 @ObjectType()
 @Entity()
 export class Board {
-  @Field()
+  @Field(() => ID)
   @PrimaryKey()
   id!: string
 
@@ -30,10 +30,10 @@ export class Board {
   title: string
 
   @Field()
-  @Property()
+  @Property({ nullable: true })
   createdBy: Member
 
-  @Field()
+  @Field({ nullable: true })
   @Property()
   background: BoardBackground
 

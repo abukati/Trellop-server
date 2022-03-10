@@ -1,4 +1,4 @@
-import { Entity, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property, t } from '@mikro-orm/core'
 import { ObjectType, Field } from 'type-graphql'
 import { Label } from './label.entity'
 import { Member } from './member.entity'
@@ -19,7 +19,7 @@ class TaskStyle {
 @Entity()
 export class Task {
   @Field()
-  @Property()
+  @PrimaryKey()
   id!: string
 
   @Field()
@@ -43,12 +43,12 @@ export class Task {
   labels?: Label[]
 
   @Field({ nullable: true })
-  @Property({ type: 'date', nullable: true })
-  startDate?: EpochTimeStamp
+  @Property({ type: 'text', nullable: true })
+  startDate?: string
 
   @Field({ nullable: true })
-  @Property({ type: 'date', nullable: true })
-  dueDate?: EpochTimeStamp
+  @Property({ type: 'text', nullable: true })
+  dueDate?: string
 
   @Field()
   @Property({ type: 'boolean' })
@@ -71,7 +71,7 @@ export class Task {
 @Entity()
 export class Comment {
   @Field()
-  @Property()
+  @PrimaryKey()
   id!: string
 
   @Field()
@@ -87,7 +87,7 @@ export class Comment {
 @Entity()
 export class Checklist {
   @Field()
-  @Property()
+  @PrimaryKey()
   id!: string
 
   @Field()
@@ -103,7 +103,7 @@ export class Checklist {
 @Entity()
 export class ChecklistItem {
   @Field()
-  @Property()
+  @PrimaryKey()
   id!: string
 
   @Field()

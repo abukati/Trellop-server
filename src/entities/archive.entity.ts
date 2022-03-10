@@ -1,4 +1,4 @@
-import { Entity, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 import { Field, ObjectType } from 'type-graphql'
 import { Task } from './task.entity'
 
@@ -6,7 +6,7 @@ import { Task } from './task.entity'
 @Entity()
 export class ArchivedItem {
   @Field()
-  @Property()
+  @PrimaryKey()
   fromListId?: string
 
   @Field()
