@@ -1,12 +1,13 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType } from 'type-graphql'
+import { v4 as uuidv4 } from 'uuid'
 
 @ObjectType()
 @Entity()
 export class Member {
-  @Field({ nullable: true })
-  @PrimaryKey({ nullable: true })
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field({ nullable: true })
   @Property()
@@ -20,7 +21,7 @@ export class Member {
   @Property()
   image?: string
 
-  @Field(_ => [String], { nullable: true })
+  @Field(_ => [String])
   @Property()
   starredIds?: string[]
 

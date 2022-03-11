@@ -7,17 +7,15 @@ export type emContext = {
 export type LabelModel = {
   id: string
   title?: string
-  color: LabelColor | null
+  color: string | null
 }
 
 export type LabelColor = 'green' | 'yellow' | 'orange' | 'red' | 'purple' | 'blue' | 'navy'
 
 export interface ChecklistModel {
   id: string
-  boardId: string
-  taskId: string
-  checklistItems: ChecklistItemModel[]
   title: string
+  items: ChecklistItemModel[]
 }
 
 export interface ChecklistItemModel {
@@ -27,10 +25,9 @@ export interface ChecklistItemModel {
 }
 
 export interface CommentModel {
-  board?: BoardModel
-  task?: TaskModel
-  list?: ListModel
-  text?: string
+  id: string
+  byMemberId: string
+  text: string
 }
 
 export interface BadgesModel {
@@ -45,7 +42,7 @@ export interface BadgesModel {
 }
 
 export type ArchivedItem = {
-  fromList?: string
+  fromListId?: string
   item: TaskModel
   index: number
 }
@@ -63,28 +60,24 @@ export type CoverColor =
   | 'navy'
 
 export interface CardCoveredModel {
-  background: CoverColor | string
+  background: string // | CoverColor
   fullCover: boolean
 }
 
 export interface BoardBackgroundModel {
-  backgroundMainColor: string | null
-  backgroundTopColor: string | null
-  backgroundBrightness: 'dark' | 'light' | 'unknown'
-  backgroundTile: boolean
-  backgroundImage?: string
+  color: string
+  image?: string
 }
 
 export type BoardModel = {
   id: string
   title: string
   createdBy: MemberModel
-  background?: BoardBackgroundModel
+  background: BoardBackgroundModel
   members: MemberModel[]
   labels: LabelModel[]
   description?: string
   archive: ArchivedItem[]
-  url?: string
   lists: ListModel[]
 }
 
@@ -95,9 +88,9 @@ export type TaskModel = {
   labels?: LabelModel[]
   members?: MemberModel[]
   description?: string
-  startDate?: Date
+  startDate?: string
   dueComlpete?: boolean
-  dueDate?: Date
+  dueDate?: string
   comments?: CommentModel[]
   checklists?: ChecklistModel[]
   isArchived?: boolean
@@ -107,7 +100,6 @@ export type ListModel = {
   id: string
   title: string
   tasks: TaskModel[]
-  watching?: boolean
 }
 
 export type MemberModel = {

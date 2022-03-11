@@ -1,5 +1,7 @@
-import { Entity, PrimaryKey, Property, t } from '@mikro-orm/core'
-import { ObjectType, Field } from 'type-graphql'
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { ObjectType, Field, ID } from 'type-graphql'
+import { v4 as uuidv4 } from 'uuid'
+
 import { Label } from './label.entity'
 import { Member } from './member.entity'
 
@@ -18,15 +20,15 @@ class TaskStyle {
 @ObjectType()
 @Entity()
 export class Task {
-  @Field()
-  @PrimaryKey()
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field()
   @Property({ type: 'text' })
   title!: string
 
-  @Field()
+  @Field({ nullable: true })
   @Property({ type: 'text', nullable: true })
   description?: string
 
@@ -36,7 +38,7 @@ export class Task {
 
   @Field(_ => [Member])
   @Property({ nullable: true })
-  members?: Member[]
+  members: Member[]
 
   @Field(_ => [Label])
   @Property({ nullable: true })
@@ -70,9 +72,9 @@ export class Task {
 @ObjectType()
 @Entity()
 export class Comment {
-  @Field()
-  @PrimaryKey()
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field()
   @Property()
@@ -86,9 +88,9 @@ export class Comment {
 @ObjectType()
 @Entity()
 export class Checklist {
-  @Field()
-  @PrimaryKey()
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field()
   @Property({ type: 'text' })
@@ -102,9 +104,9 @@ export class Checklist {
 @ObjectType()
 @Entity()
 export class ChecklistItem {
-  @Field()
-  @PrimaryKey()
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field()
   @Property({ type: 'text', nullable: true })

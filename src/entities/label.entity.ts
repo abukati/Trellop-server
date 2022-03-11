@@ -1,16 +1,17 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType } from 'type-graphql'
+import { v4 as uuidv4 } from 'uuid'
 
 @ObjectType()
 @Entity()
 export class Label {
-  @Field({ nullable: true })
-  @PrimaryKey()
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field({ nullable: true })
   @Property({ type: 'text' })
-  title?: string
+  title: string
 
   @Field({ nullable: true })
   @Property({ type: 'text' })

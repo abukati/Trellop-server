@@ -1,5 +1,6 @@
-import { MikroORM } from '@mikro-orm/core'
 import path from 'path'
+import { MikroORM } from '@mikro-orm/core'
+
 import { __prod__ } from './constants'
 import { ArchivedItem } from './entities/archive.entity'
 import { Board } from './entities/board.entity'

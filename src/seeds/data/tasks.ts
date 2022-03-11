@@ -1,38 +1,39 @@
+import { v4 } from 'uuid'
 import { dummyMember1 } from './members'
 import { label2, label3, label4, label6, label7 } from './labels'
 
 export const dummyComment1 = {
-  id: 'com101',
-  byMemberId: 'u100',
+  id: v4(),
+  byMemberId: dummyMember1.id,
   text: 'GraphQL is amazing!'
 }
 
 export const dummyComment2 = {
-  id: 'c100',
+  id: v4(),
   byMemberId: 'u100',
   text: 'MikrORM rocks!'
 }
 
 export const dummyChecklistItem1 = {
-  id: 'todo100',
+  id: v4(),
   title: 'todo one',
   done: false
 }
 
 export const dummyChecklistItem2 = {
-  id: 'todo101',
+  id: v4(),
   title: 'todo two',
   done: true
 }
 
 export const dummyChecklist1 = {
-  id: 'check100',
+  id: v4(),
   title: 'checklist one',
   items: [dummyChecklistItem1, dummyChecklistItem2]
 }
 
 export const dummyTask1 = {
-  id: 't100',
+  id: v4(),
   title: 'Set up external log in options.\nApple Id, google, facebook',
   description: '',
   style: {
@@ -50,7 +51,7 @@ export const dummyTask1 = {
 }
 
 export const dummyTask2 = {
-  id: 'u2i2R5YfHi',
+  id: v4(),
   title: "Header links should work when there's user auth",
   description: '',
   style: {
@@ -68,7 +69,7 @@ export const dummyTask2 = {
 }
 
 export const dummyTask3 = {
-  id: 't101',
+  id: v4(),
   title: "Some forms don't behave as expected",
   description: 'task two description',
   style: {
@@ -86,7 +87,7 @@ export const dummyTask3 = {
 }
 
 export const dummyTask4 = {
-  id: '8v4846hxDN',
+  id: v4(),
   title: 'Users should be able to upload their own images as covers besides Unsplash',
   description: "This is a descriptive description for a task in a board that's going to be seeded",
   style: {
@@ -104,7 +105,7 @@ export const dummyTask4 = {
 }
 
 export const dummyTask5 = {
-  id: 'WGeTBAh2hg',
+  id: v4(),
   title: 'Web sockets optimization required',
   description: '',
   style: {
@@ -122,7 +123,7 @@ export const dummyTask5 = {
 }
 
 export const dummyTask6 = {
-  id: '4UNvzIxfkU',
+  id: v4(),
   title: 'Sidemenu needs to be worked on',
   description: '',
   style: {

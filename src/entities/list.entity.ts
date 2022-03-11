@@ -1,19 +1,21 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
-import { ObjectType, Field } from 'type-graphql'
+import { ObjectType, Field, ID } from 'type-graphql'
+import { v4 as uuidv4 } from 'uuid'
+
 import { Task } from './task.entity'
 
 @ObjectType()
 @Entity()
 export class List {
-  @Field({ nullable: true })
-  @PrimaryKey()
-  id!: string
+  @Field(() => ID)
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field({ nullable: true })
   @Property({ type: 'text' })
-  title!: string
+  title: string
 
-  @Field(_ => [Task], { nullable: true })
+  @Field(_ => [Task])
   @Property()
   tasks: Task[]
 }

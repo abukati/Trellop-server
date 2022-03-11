@@ -1,7 +1,8 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 import { Field, ID, ObjectType } from 'type-graphql'
-import { ArchivedItem } from './archive.entity'
+import { v4 as uuidv4 } from 'uuid'
 
+import { ArchivedItem } from './archive.entity'
 import { Label } from './label.entity'
 import { List } from './list.entity'
 import { Member } from './member.entity'
@@ -22,28 +23,28 @@ export class BoardBackground {
 @Entity()
 export class Board {
   @Field(() => ID)
-  @PrimaryKey()
-  id!: string
+  @PrimaryKey({ type: 'uuid', unique: true })
+  id = uuidv4()
 
   @Field()
   @Property({ type: 'text' })
-  title: string
+  title!: string
 
   @Field()
-  @Property({ nullable: true })
+  @Property()
   createdBy: Member
 
   @Field({ nullable: true })
-  @Property()
+  @Property({ nullable: true })
   background: BoardBackground
 
   @Field(_ => [Member])
   @Property()
-  members: Member[]
+  members?: Member[]
 
   @Field(_ => [Label])
   @Property()
-  labels: Label[]
+  labels?: Label[]
 
   @Field()
   @Property({ type: 'text', nullable: true })
@@ -55,5 +56,5 @@ export class Board {
 
   @Field(_ => [List])
   @Property()
-  lists: List[]
+  lists?: List[]
 }
