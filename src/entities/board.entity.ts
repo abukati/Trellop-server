@@ -1,4 +1,18 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import {
+  Cascade,
+  Collection,
+  Embeddable,
+  Embedded,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryKey,
+  Property,
+  Unique,
+  UuidType
+} from '@mikro-orm/core'
 import { Field, ID, ObjectType } from 'type-graphql'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -7,16 +21,36 @@ import { Label } from './label.entity'
 import { List } from './list.entity'
 import { Member } from './member.entity'
 
+// @ObjectType()
+// @Entity()
+// export class BoardBackground {
+//   @Field(() => ID)
+//   @PrimaryKey({ type: 'uuid', unique: true })
+//   id = uuidv4()
+
+//   @Field({ nullable: true })
+//   @Property()
+//   color: string
+
+//   @Field({ nullable: true })
+//   @Property({ nullable: true })
+//   image: string
+
+//   // @Field()
+//   // @OneToOne(() => Board, board => board.background)
+//   // boardId: string
+// }
+
 @ObjectType()
-@Entity()
+@Embeddable()
 export class BoardBackground {
-  @Field({ nullable: true })
-  @Property({ nullable: true })
+  @Field()
+  @Property()
   color: string
 
   @Field({ nullable: true })
-  @Property()
-  image?: string
+  @Property({ nullable: true })
+  image: string
 }
 
 @ObjectType()
@@ -31,30 +65,32 @@ export class Board {
   title!: string
 
   @Field()
-  @Property()
-  createdBy: Member
-
-  @Field({ nullable: true })
-  @Property({ nullable: true })
-  background: BoardBackground
-
-  @Field(_ => [Member])
-  @Property()
-  members?: Member[]
-
-  @Field(_ => [Label])
-  @Property()
-  labels?: Label[]
+  @Property({ type: 'text', nullable: true })
+  description: string
 
   @Field()
-  @Property({ type: 'text', nullable: true })
-  description?: string
+  // { inversedBy: 'boardId' }
+  // @OneToOne(() => BoardBackground)
+  @Embedded(() => BoardBackground)
+  background!: BoardBackground
 
-  @Field(_ => [ArchivedItem])
-  @Property()
-  archive: ArchivedItem[]
+  @Field(() => [Member])
+  @ManyToMany(() => Member)
+  members = new Collection<Member>(this)
 
-  @Field(_ => [List])
-  @Property()
-  lists?: List[]
+  @Field(() => Member)
+  @ManyToOne(() => Member)
+  createdBy: Member
+
+  @Field(() => [List])
+  @OneToMany({ entity: () => List, mappedBy: list => list.boardId })
+  lists = new Collection<List>(this)
+
+  @Field(() => [Label])
+  @OneToMany({ entity: () => Label, mappedBy: label => label.boardId })
+  labels = new Collection<Label>(this)
+
+  // @Field(_ => [ArchivedItem])
+  // @Property()
+  // archive: ArchivedItem[]
 }

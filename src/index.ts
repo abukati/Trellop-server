@@ -8,7 +8,8 @@ import { __prod__ } from './constants'
 import mikroOrmConfig from './mikro-orm.config'
 import { BoardResolver } from './resolvers/board.resolver'
 
-// import { seedDb } from './seeds'
+// import { seedDb } from './seeders/data'
+// await seedDb(em)
 
 const main = async () => {
   const orm = await MikroORM.init(mikroOrmConfig)
@@ -25,8 +26,6 @@ const main = async () => {
     context: () => ({ em })
   })
 
-  // await seedDb(em)
-
   await apolloServer.start()
   apolloServer.applyMiddleware({ app })
 
@@ -38,3 +37,5 @@ const main = async () => {
 main().catch(err => {
   console.error(err)
 })
+
+// TODO: Connect between entities using pointers and not properties

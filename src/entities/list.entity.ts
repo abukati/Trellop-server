@@ -1,6 +1,7 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
 import { ObjectType, Field, ID } from 'type-graphql'
 import { v4 as uuidv4 } from 'uuid'
+import { Board } from './board.entity'
 
 import { Task } from './task.entity'
 
@@ -15,7 +16,11 @@ export class List {
   @Property({ type: 'text' })
   title: string
 
-  @Field(_ => [Task])
-  @Property()
-  tasks: Task[]
+  @Field(() => [Task])
+  @OneToMany({ entity: () => Task, mappedBy: task => task.listId })
+  tasks = new Collection<Task>(this)
+
+  @Field(() => ID)
+  @ManyToOne(() => Board)
+  boardId: Board['id']
 }

@@ -1,9 +1,8 @@
-import 'reflect-metadata'
 import { Resolver, Query, Ctx, Arg, Mutation } from 'type-graphql'
 
 import { emContext } from '../types'
 import { Board } from '../entities/board.entity'
-import { newBoard as seedBoard } from '../seeds/data/board'
+import { newBoard as seedBoard } from '../seeders/data/board'
 import { NewBoardInput, UpdateBoardInput } from './inputs/board.entity'
 
 @Resolver()

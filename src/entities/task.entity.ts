@@ -1,13 +1,26 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import {
+  Collection,
+  Embeddable,
+  Embedded,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryKey,
+  Property
+} from '@mikro-orm/core'
 import { ObjectType, Field, ID } from 'type-graphql'
 import { v4 as uuidv4 } from 'uuid'
+import { Board } from './board.entity'
 
 import { Label } from './label.entity'
+import { List } from './list.entity'
 import { Member } from './member.entity'
 
 @ObjectType()
-@Entity()
-class TaskStyle {
+@Embeddable()
+export class TaskStyle {
   @Field()
   @Property({ nullable: true })
   background: string
@@ -32,41 +45,53 @@ export class Task {
   @Property({ type: 'text', nullable: true })
   description?: string
 
-  @Field(_ => TaskStyle)
-  @Property()
+  @Field()
+  @Embedded(() => TaskStyle)
   style: TaskStyle
 
-  @Field(_ => [Member])
-  @Property({ nullable: true })
-  members: Member[]
-
-  @Field(_ => [Label])
-  @Property({ nullable: true })
-  labels?: Label[]
+  @Field({ nullable: true })
+  @Property({ type: 'text', nullable: true })
+  startDate: string
 
   @Field({ nullable: true })
   @Property({ type: 'text', nullable: true })
-  startDate?: string
-
-  @Field({ nullable: true })
-  @Property({ type: 'text', nullable: true })
-  dueDate?: string
+  dueDate: string
 
   @Field()
   @Property({ type: 'boolean' })
-  dueComplete?: boolean
-
-  @Field(_ => [Comment])
-  @Property({ nullable: true })
-  comments?: Comment[]
-
-  @Field(_ => [Checklist])
-  @Property()
-  checklists?: Checklist[]
+  dueComplete: boolean
 
   @Field()
   @Property({ type: 'boolean' })
   isArchived: boolean
+
+  // Might be completely useless
+  @Field(() => ID)
+  @ManyToOne(() => Board)
+  boardId: Board['id']
+
+  // Same. It's either chaining top to bottom (board -> list -> task),
+  // or storing ID references here for board & list.
+  // TODO: Test
+  @Field(() => ID)
+  @ManyToOne(() => List)
+  listId: List['id']
+
+  @Field(() => [Label])
+  @ManyToMany(() => Label, 'taskIds', { owner: true })
+  labels = new Collection<Label>(this)
+
+  @Field(() => [Member])
+  @ManyToMany(() => Member)
+  members = new Collection<Member>(this)
+
+  // @Field(() => [Comment])
+  // @OneToMany()
+  // comments?: Comment[]
+
+  // @Field(_ => [Checklist])
+  // @Property()
+  // checklists?: Checklist[]\
 }
 
 @ObjectType()

@@ -22,6 +22,7 @@
     "@mikro-orm/core": "^5.0.5",
     "@mikro-orm/migrations": "^5.0.5",
     "@mikro-orm/postgresql": "^5.0.5",
+    "@mikro-orm/seeder": "^5.0.5",
     "apollo-server-express": "^3.6.3",
     "express": "^4.17.3",
     "graphql": "^15.8.0",

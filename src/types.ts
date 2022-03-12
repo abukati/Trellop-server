@@ -6,8 +6,9 @@ export type emContext = {
 
 export type LabelModel = {
   id: string
-  title?: string
-  color: string | null
+  title: string
+  color: LabelColor | null
+  taskIds: string[]
 }
 
 export type LabelColor = 'green' | 'yellow' | 'orange' | 'red' | 'purple' | 'blue' | 'navy'
