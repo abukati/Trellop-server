@@ -21,9 +21,9 @@ export class Label {
 
   @Field(() => [ID], { nullable: true })
   @ManyToMany(() => Task, task => task.labels, { nullable: true })
-  taskIds = new Collection<Task['id']>(this)
+  taskIds = new Collection<Task['id'][]>(this)
 
-  @Field(() => [ID])
+  @Field(() => ID)
   @ManyToOne(() => Board)
-  boardId: Board['id'][]
+  boardId: Board['id']
 }

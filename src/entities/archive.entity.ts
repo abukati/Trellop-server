@@ -1,11 +1,12 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ObjectType } from 'type-graphql'
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Field, ID, ObjectType } from 'type-graphql'
+import { Board } from './board.entity'
 import { Task } from './task.entity'
 
 @ObjectType()
 @Entity()
 export class ArchivedItem {
-  @Field()
+  @Field(() => ID)
   @PrimaryKey()
   fromListId?: string
 
@@ -16,4 +17,8 @@ export class ArchivedItem {
   @Field()
   @Property()
   index: number
+
+  @Field(() => ID)
+  @ManyToOne(() => Board)
+  boardId: Board['id']
 }

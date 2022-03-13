@@ -1,0 +1,811 @@
+{
+  "namespaces": [
+    "public"
+  ],
+  "name": "public",
+  "tables": [
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "by_member_id": {
+          "name": "by_member_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        }
+      },
+      "name": "comment",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "comment_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "done": {
+          "name": "done",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
+        }
+      },
+      "name": "checklist_item",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "checklist_item_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "items": {
+          "name": "items",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "array"
+        }
+      },
+      "name": "checklist",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "checklist_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "fullname": {
+          "name": "fullname",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "image": {
+          "name": "image",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        }
+      },
+      "name": "member",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "member_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "background": {
+          "name": "background",
+          "type": "jsonb",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "json"
+        },
+        "created_by_id_id": {
+          "name": "created_by_id_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "board",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "board_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "board_created_by_id_id_foreign": {
+          "constraintName": "board_created_by_id_id_foreign",
+          "columnNames": [
+            "created_by_id_id"
+          ],
+          "localTableName": "public.board",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.member",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "board_id_id": {
+          "name": "board_id_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "list",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "list_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "list_board_id_id_foreign": {
+          "constraintName": "list_board_id_id_foreign",
+          "columnNames": [
+            "board_id_id"
+          ],
+          "localTableName": "public.list",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.board",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "style_background": {
+          "name": "style_background",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "string"
+        },
+        "style_full_cover": {
+          "name": "style_full_cover",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "bigint"
+        },
+        "due_date": {
+          "name": "due_date",
+          "type": "bigint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "bigint"
+        },
+        "due_complete": {
+          "name": "due_complete",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
+        },
+        "is_archived": {
+          "name": "is_archived",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
+        },
+        "board_id_id": {
+          "name": "board_id_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "list_id_id": {
+          "name": "list_id_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "task",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "task_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "task_board_id_id_foreign": {
+          "constraintName": "task_board_id_id_foreign",
+          "columnNames": [
+            "board_id_id"
+          ],
+          "localTableName": "public.task",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.board",
+          "updateRule": "cascade"
+        },
+        "task_list_id_id_foreign": {
+          "constraintName": "task_list_id_id_foreign",
+          "columnNames": [
+            "list_id_id"
+          ],
+          "localTableName": "public.task",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.list",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "task_id": {
+          "name": "task_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "member_id": {
+          "name": "member_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "task_members",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "task_members_pkey",
+          "columnNames": [
+            "task_id",
+            "member_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "task_members_task_id_foreign": {
+          "constraintName": "task_members_task_id_foreign",
+          "columnNames": [
+            "task_id"
+          ],
+          "localTableName": "public.task_members",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.task",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "task_members_member_id_foreign": {
+          "constraintName": "task_members_member_id_foreign",
+          "columnNames": [
+            "member_id"
+          ],
+          "localTableName": "public.task_members",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.member",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "from_list_id": {
+          "name": "from_list_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "item": {
+          "name": "item",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "index": {
+          "name": "index",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "board_id_id": {
+          "name": "board_id_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "archived_item",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "archived_item_pkey",
+          "columnNames": [
+            "from_list_id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "archived_item_board_id_id_foreign": {
+          "constraintName": "archived_item_board_id_id_foreign",
+          "columnNames": [
+            "board_id_id"
+          ],
+          "localTableName": "public.archived_item",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.board",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "board_id_id": {
+          "name": "board_id_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "label",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "label_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "label_board_id_id_foreign": {
+          "constraintName": "label_board_id_id_foreign",
+          "columnNames": [
+            "board_id_id"
+          ],
+          "localTableName": "public.label",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.board",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "task_id": {
+          "name": "task_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "label_id": {
+          "name": "label_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "task_labels",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "task_labels_pkey",
+          "columnNames": [
+            "task_id",
+            "label_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "task_labels_task_id_foreign": {
+          "constraintName": "task_labels_task_id_foreign",
+          "columnNames": [
+            "task_id"
+          ],
+          "localTableName": "public.task_labels",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.task",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "task_labels_label_id_foreign": {
+          "constraintName": "task_labels_label_id_foreign",
+          "columnNames": [
+            "label_id"
+          ],
+          "localTableName": "public.task_labels",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.label",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "board_id": {
+          "name": "board_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "member_id": {
+          "name": "member_id",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        }
+      },
+      "name": "board_members",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "board_members_pkey",
+          "columnNames": [
+            "board_id",
+            "member_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "board_members_board_id_foreign": {
+          "constraintName": "board_members_board_id_foreign",
+          "columnNames": [
+            "board_id"
+          ],
+          "localTableName": "public.board_members",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.board",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "board_members_member_id_foreign": {
+          "constraintName": "board_members_member_id_foreign",
+          "columnNames": [
+            "member_id"
+          ],
+          "localTableName": "public.board_members",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.member",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    }
+  ]
+}

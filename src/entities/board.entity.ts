@@ -71,26 +71,26 @@ export class Board {
   @Field()
   // { inversedBy: 'boardId' }
   // @OneToOne(() => BoardBackground)
-  @Embedded(() => BoardBackground)
+  @Embedded({ entity: () => BoardBackground, object: true })
   background!: BoardBackground
 
-  @Field(() => [Member])
+  @Field(() => [ID])
   @ManyToMany(() => Member)
-  members = new Collection<Member>(this)
+  members = new Collection<Member['id']>(this)
 
-  @Field(() => Member)
+  @Field(() => ID)
   @ManyToOne(() => Member)
-  createdBy: Member
+  createdById: Member['id']
 
-  @Field(() => [List])
+  @Field(() => [ID])
   @OneToMany({ entity: () => List, mappedBy: list => list.boardId })
-  lists = new Collection<List>(this)
+  listIds = new Collection<List['id']>(this)
 
-  @Field(() => [Label])
+  @Field(() => [ID])
   @OneToMany({ entity: () => Label, mappedBy: label => label.boardId })
-  labels = new Collection<Label>(this)
+  labels = new Collection<Label['id']>(this)
 
-  // @Field(_ => [ArchivedItem])
-  // @Property()
-  // archive: ArchivedItem[]
+  @Field(() => [ID])
+  @OneToMany({ entity: () => ArchivedItem, mappedBy: archivedItem => archivedItem.boardId, orphanRemoval: true })
+  archive = new Collection<ArchivedItem['item']['id']>(this)
 }

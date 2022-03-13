@@ -10,7 +10,7 @@ import {
   PrimaryKey,
   Property
 } from '@mikro-orm/core'
-import { ObjectType, Field, ID } from 'type-graphql'
+import { ObjectType, Field, ID, Int } from 'type-graphql'
 import { v4 as uuidv4 } from 'uuid'
 import { Board } from './board.entity'
 
@@ -49,13 +49,13 @@ export class Task {
   @Embedded(() => TaskStyle)
   style: TaskStyle
 
-  @Field({ nullable: true })
-  @Property({ type: 'text', nullable: true })
-  startDate: string
+  @Field(() => Int, { nullable: true })
+  @Property({ type: 'bigint', nullable: true })
+  startDate: BigInt
 
-  @Field({ nullable: true })
-  @Property({ type: 'text', nullable: true })
-  dueDate: string
+  @Field(() => Int, { nullable: true })
+  @Property({ type: 'bigint', nullable: true })
+  dueDate: BigInt
 
   @Field()
   @Property({ type: 'boolean' })
@@ -77,13 +77,13 @@ export class Task {
   @ManyToOne(() => List)
   listId: List['id']
 
-  @Field(() => [Label])
-  @ManyToMany(() => Label, 'taskIds', { owner: true })
-  labels = new Collection<Label>(this)
+  @Field(() => [ID])
+  @ManyToMany(() => Label, label => label.taskIds, { owner: true })
+  labels = new Collection<Label['id']>(this)
 
-  @Field(() => [Member])
+  @Field(() => [ID])
   @ManyToMany(() => Member)
-  members = new Collection<Member>(this)
+  members = new Collection<Member['id']>(this)
 
   // @Field(() => [Comment])
   // @OneToMany()

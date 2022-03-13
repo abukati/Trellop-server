@@ -1,4 +1,4 @@
-import { Collection, Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Collection, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
 import { Field, ID, ObjectType } from 'type-graphql'
 import { v4 as uuidv4 } from 'uuid'
 import { Board } from './board.entity'
@@ -20,20 +20,24 @@ export class Member {
   fullname!: string
 
   @Field({ nullable: true })
-  @Property()
-  image?: string
+  @Property({ nullable: true })
+  image: string
 
-  @Field(() => ID)
+  @Field(() => [ID])
   @ManyToMany(() => Board, board => board.members)
   boardsMembership = new Collection<Board['id']>(this)
 
-  @Field(() => ID)
+  @Field(() => [ID])
   @ManyToMany(() => Task, task => task.members)
   taskMembership = new Collection<Task['id']>(this)
 
-  // @Field(_ => [String])
-  // @Property()
-  // starredIds?: string[]
+  // @Field(() => [ID])
+  // @OneToMany(() => Board, board => board.members)
+  // starredIds = new Collection<Board['id']>(this)
+
+  // @Field(() => [ID])
+  // @OneToMany(() => Board, board => board.members)
+  // watchlist = new Collection<Board['id']>(this)
 
   // @Field(_ => [String], { nullable: true })
   // @Property()

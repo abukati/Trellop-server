@@ -16,9 +16,9 @@ export class List {
   @Property({ type: 'text' })
   title: string
 
-  @Field(() => [Task])
+  @Field(() => [ID])
   @OneToMany({ entity: () => Task, mappedBy: task => task.listId })
-  tasks = new Collection<Task>(this)
+  taskIds = new Collection<Task['id']>(this)
 
   @Field(() => ID)
   @ManyToOne(() => Board)

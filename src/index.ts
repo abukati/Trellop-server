@@ -7,6 +7,7 @@ import { buildSchema } from 'type-graphql'
 import { __prod__ } from './constants'
 import mikroOrmConfig from './mikro-orm.config'
 import { BoardResolver } from './resolvers/board.resolver'
+import { TaskResolver } from './resolvers/task.resolver'
 
 // import { seedDb } from './seeders/data'
 // await seedDb(em)
@@ -20,7 +21,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [BoardResolver],
+      resolvers: [BoardResolver, TaskResolver],
       validate: false
     }),
     context: () => ({ em })
