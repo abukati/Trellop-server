@@ -1,96 +1,70 @@
+import { Field, ObjectType } from 'type-graphql'
 import {
-  Cascade,
-  Collection,
-  Embeddable,
-  Embedded,
+  BaseEntity,
+  Column,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  OneToOne,
-  PrimaryKey,
-  Property,
-  Unique,
-  UuidType
-} from '@mikro-orm/core'
-import { Field, ID, ObjectType } from 'type-graphql'
-import { v4 as uuidv4 } from 'uuid'
+  PrimaryGeneratedColumn
+} from 'typeorm'
 
-import { ArchivedItem } from './archive.entity'
+// import { ArchivedItem } from './archive.entity'
 import { Label } from './label.entity'
 import { List } from './list.entity'
 import { Member } from './member.entity'
 
-// @ObjectType()
-// @Entity()
-// export class BoardBackground {
-//   @Field(() => ID)
-//   @PrimaryKey({ type: 'uuid', unique: true })
-//   id = uuidv4()
-
-//   @Field({ nullable: true })
-//   @Property()
-//   color: string
-
-//   @Field({ nullable: true })
-//   @Property({ nullable: true })
-//   image: string
-
-//   // @Field()
-//   // @OneToOne(() => Board, board => board.background)
-//   // boardId: string
-// }
-
 @ObjectType()
-@Embeddable()
-export class BoardBackground {
+class BoardBackground {
   @Field()
-  @Property()
   color: string
 
   @Field({ nullable: true })
-  @Property({ nullable: true })
-  image: string
+  image?: string
 }
 
 @ObjectType()
 @Entity()
-export class Board {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id = uuidv4()
+export class Board extends BaseEntity {
+  @Field()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
   @Field()
-  @Property({ type: 'text' })
+  @Column()
   title!: string
 
   @Field()
-  @Property({ type: 'text', nullable: true })
-  description: string
+  @Column({ nullable: true })
+  description?: string
 
-  @Field()
-  // { inversedBy: 'boardId' }
-  // @OneToOne(() => BoardBackground)
-  @Embedded({ entity: () => BoardBackground, object: true })
-  background!: BoardBackground
+  @Field(() => BoardBackground)
+  @Column('simple-json', { default: { color: '#0079bf', image: undefined } })
+  background: { color: string; image?: string }
 
-  @Field(() => [ID])
-  @ManyToMany(() => Member)
-  members = new Collection<Member['id']>(this)
+  @Field(() => [Member])
+  @ManyToMany(() => Member, member => member.boards)
+  @JoinTable()
+  members: Member[]
 
-  @Field(() => ID)
+  @Field(() => Member)
   @ManyToOne(() => Member)
-  createdById: Member['id']
+  creator: Member
 
-  @Field(() => [ID])
-  @OneToMany({ entity: () => List, mappedBy: list => list.boardId })
-  listIds = new Collection<List['id']>(this)
+  @Field(() => [List])
+  @OneToMany(() => List, list => list.board)
+  lists: List[]
 
-  @Field(() => [ID])
-  @OneToMany({ entity: () => Label, mappedBy: label => label.boardId })
-  labels = new Collection<Label['id']>(this)
+  @Field(() => [List])
+  @OneToMany(() => Label, label => label.board)
+  labels: Label[]
 
-  @Field(() => [ID])
-  @OneToMany({ entity: () => ArchivedItem, mappedBy: archivedItem => archivedItem.boardId, orphanRemoval: true })
-  archive = new Collection<ArchivedItem['item']['id']>(this)
+  // @Field(() => [ArchivedItem])
+  // @OneToMany({
+  //   entity: () => ArchivedItem,
+  //   mappedBy: archivedItem => archivedItem.boardId,
+  //   orphanRemoval: true
+  // })
+  // archive = new Collection<ArchivedItem['item'][]>(this)
 }

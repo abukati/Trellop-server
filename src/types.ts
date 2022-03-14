@@ -1,9 +1,3 @@
-import { EntityManager, IDatabaseDriver, Connection } from '@mikro-orm/core'
-
-export type emContext = {
-  em: EntityManager<IDatabaseDriver<Connection>>
-}
-
 export type LabelModel = {
   id: string
   title: string

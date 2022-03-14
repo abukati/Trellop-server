@@ -1,53 +1,52 @@
-import { Resolver, Query, Ctx, Arg, Mutation } from 'type-graphql'
+import { Resolver, Query, Arg, Mutation, InputType, Field } from 'type-graphql'
 
-import { emContext } from '../types'
 import { Task } from '../entities/task.entity'
+
+@InputType()
+class TaskInput extends Task {
+  @Field()
+  title: string
+}
 
 @Resolver()
 export class TaskResolver {
+  // TODO: Build query for tasks by board and list id
+
   @Query(() => [Task])
-  tasks(@Arg('boardId') id: string, @Ctx() { em }: emContext): Promise<Task[]> {
-    return em.find(Task, { boardId: id })
+  async tasks(): Promise<Task[]> {
+    return Task.find()
   }
 
-  // @Query(() => Board, { nullable: true })
-  // board(@Arg('boardId') id: string, @Ctx() { em }: emContext): Promise<Board | null> {
-  //   return em.findOne(Board, { id })
-  // }
+  @Mutation(() => Task)
+  async createTask(@Arg('task') taskInput: TaskInput): Promise<Task | null> {
+    if (!taskInput) {
+      return null
+    }
+    return Task.create(taskInput).save()
+  }
 
-  // @Mutation(() => Board)
-  // async createBoard(@Arg('newBoard') boardInput: NewBoardInput, @Ctx() { em }: emContext): Promise<Board | null> {
-  //   if (!boardInput) {
-  //     return null
-  //   }
-  //   const board = em.create(Board, boardInput)
-  //   await em.persistAndFlush(board)
-  //   return board
-  // }
+  @Mutation(() => Task)
+  async updateTask(
+    @Arg('id') id: string,
+    @Arg('title', () => String, { nullable: true }) title: string
+  ): Promise<Task | null> {
+    const task = await Task.findOne(id)
+    if (!task) {
+      throw new Error(`Invalid task ID ${id}`)
+    }
+    if (typeof title !== 'undefined') {
+      await Task.update({ id }, { title })
+    }
+    return task
+  }
 
-  // @Mutation(() => Board)
-  // async updateBoard(
-  //   @Arg('boardId') boardId: string,
-  //   @Arg('updatedBoard') updatedBoardInput: UpdateBoardInput,
-  //   @Ctx() { em }: emContext
-  // ): Promise<Board> {
-  //   const board = await em.findOne(Board, boardId)
-  //   if (!board) {
-  //     throw new Error('Invalid board ID')
-  //   }
-
-  //   const newBoard = em.create(Board, updatedBoardInput)
-  //   await em.persistAndFlush(newBoard)
-  //   return newBoard
-  // }
-
-  // @Mutation(() => Boolean)
-  // async deleteBoard(@Arg('boardId') boardId: string, @Ctx() { em }: emContext): Promise<boolean> {
-  //   try {
-  //     await em.nativeDelete(Board, boardId)
-  //   } catch (e) {
-  //     throw new Error(`Invalid board ID, ${e}`)
-  //   }
-  //   return true
-  // }
+  @Mutation(() => Boolean)
+  async deleteTask(@Arg('id') id: string): Promise<boolean> {
+    try {
+      await Task.delete(id)
+    } catch (err) {
+      throw new Error(`Invalid board ID, ${err}`)
+    }
+    return true
+  }
 }

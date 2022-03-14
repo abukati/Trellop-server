@@ -1,24 +1,29 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ID, ObjectType } from 'type-graphql'
-import { Board } from './board.entity'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Field, ObjectType } from 'type-graphql'
+
+// import { Board } from './board.entity'
 import { Task } from './task.entity'
 
 @ObjectType()
 @Entity()
 export class ArchivedItem {
-  @Field(() => ID)
-  @PrimaryKey()
-  fromListId?: string
+  @Field()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
   @Field()
-  @Property()
+  @Column()
   item: Task
 
   @Field()
-  @Property()
+  @Column()
   index: number
 
-  @Field(() => ID)
-  @ManyToOne(() => Board)
-  boardId: Board['id']
+  // @Field()
+  // @Column()
+  // listId: string
+
+  // @Field(() => String!)
+  // @ManyToOne(() => Board)
+  // boardId: string
 }

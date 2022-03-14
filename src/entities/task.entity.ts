@@ -1,89 +1,71 @@
-import {
-  Collection,
-  Embeddable,
-  Embedded,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryKey,
-  Property
-} from '@mikro-orm/core'
-import { ObjectType, Field, ID, Int } from 'type-graphql'
-import { v4 as uuidv4 } from 'uuid'
-import { Board } from './board.entity'
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { ObjectType, Field } from 'type-graphql'
 
+// import { Board } from './board.entity'
 import { Label } from './label.entity'
 import { List } from './list.entity'
-import { Member } from './member.entity'
+// import { Member } from './member.entity'
 
 @ObjectType()
-@Embeddable()
-export class TaskStyle {
-  @Field()
-  @Property({ nullable: true })
+class TaskStyle {
+  @Field({ nullable: true })
   background: string
 
   @Field()
-  @Property()
   fullCover: boolean
 }
 
 @ObjectType()
 @Entity()
-export class Task {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id = uuidv4()
+export class Task extends BaseEntity {
+  @Field()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
   @Field()
-  @Property({ type: 'text' })
+  @Column()
   title!: string
 
-  @Field({ nullable: true })
-  @Property({ type: 'text', nullable: true })
+  @Field()
+  @Column({ nullable: true })
   description?: string
 
-  @Field()
-  @Embedded(() => TaskStyle)
-  style: TaskStyle
-
-  @Field(() => Int, { nullable: true })
-  @Property({ type: 'bigint', nullable: true })
-  startDate: BigInt
-
-  @Field(() => Int, { nullable: true })
-  @Property({ type: 'bigint', nullable: true })
-  dueDate: BigInt
+  @Field(() => TaskStyle)
+  @Column('simple-json', { default: { background: null, fullCover: false } })
+  style: { background: string; fullCover: boolean }
 
   @Field()
-  @Property({ type: 'boolean' })
+  @Column({ nullable: true, type: 'timestamp' })
+  startDate?: EpochTimeStamp
+
+  @Field()
+  @Column({ nullable: true, type: 'timestamp' })
+  dueDate?: EpochTimeStamp
+
+  @Field()
+  @Column()
   dueComplete: boolean
 
   @Field()
-  @Property({ type: 'boolean' })
+  @Column()
   isArchived: boolean
 
-  // Might be completely useless
-  @Field(() => ID)
-  @ManyToOne(() => Board)
-  boardId: Board['id']
+  @Field(() => List)
+  @ManyToOne(() => List, list => list.tasks)
+  list: List
 
-  // Same. It's either chaining top to bottom (board -> list -> task),
-  // or storing ID references here for board & list.
-  // TODO: Test
-  @Field(() => ID)
-  @ManyToOne(() => List)
-  listId: List['id']
+  @Field(() => [Label])
+  @ManyToMany(() => Label, label => label.tasks, { eager: true })
+  @JoinTable()
+  labels: Label[]
 
-  @Field(() => [ID])
-  @ManyToMany(() => Label, label => label.taskIds, { owner: true })
-  labels = new Collection<Label['id']>(this)
+  // @Field()
+  // @ManyToOne(() => Board)
+  // board: Board
 
-  @Field(() => [ID])
-  @ManyToMany(() => Member)
-  members = new Collection<Member['id']>(this)
+  // @Field(() => [String!])
+  // @ManyToMany(() => Member)
+  // members = new Collection<Member['id'][]>(this)
 
   // @Field(() => [Comment])
   // @OneToMany()
@@ -94,50 +76,50 @@ export class Task {
   // checklists?: Checklist[]\
 }
 
-@ObjectType()
-@Entity()
-export class Comment {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id = uuidv4()
+// @ObjectType()
+// @Entity()
+// export class Comment {
+//   @PrimaryKey({ type: 'string', unique: true })
+//   @Field(() => String!)
+//   id = uuidv4()
 
-  @Field()
-  @Property()
-  byMemberId!: string
+//   @Field()
+//   @Property()
+//   byMemberId!: string
 
-  @Field()
-  @Property({ type: 'text', nullable: true })
-  text: string
-}
+//   @Field()
+//   @Property({ type: 'text', nullable: true })
+//   text: string
+// }
 
-@ObjectType()
-@Entity()
-export class Checklist {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id = uuidv4()
+// @ObjectType()
+// @Entity()
+// export class Checklist {
+//   @Field(() => String!)
+//   @PrimaryKey({ type: 'string', unique: true })
+//   id = uuidv4()
 
-  @Field()
-  @Property({ type: 'text' })
-  title: string
+//   @Field()
+//   @Property({ type: 'text' })
+//   title: string
 
-  @Field(_ => [ChecklistItem])
-  @Property()
-  items: ChecklistItem[]
-}
+//   @Field(_ => [ChecklistItem])
+//   @Property()
+//   items: ChecklistItem[]
+// }
 
-@ObjectType()
-@Entity()
-export class ChecklistItem {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id = uuidv4()
+// @ObjectType()
+// @Entity()
+// export class ChecklistItem {
+//   @Field(() => String!)
+//   @PrimaryKey({ type: 'string', unique: true })
+//   id = uuidv4()
 
-  @Field()
-  @Property({ type: 'text', nullable: true })
-  title: string
+//   @Field()
+//   @Property({ type: 'text', nullable: true })
+//   title: string
 
-  @Field()
-  @Property({ type: 'boolean' })
-  done: boolean
-}
+//   @Field()
+//   @Property({ type: 'boolean' })
+//   done: boolean
+// }

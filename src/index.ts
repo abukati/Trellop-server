@@ -1,11 +1,16 @@
 import 'reflect-metadata'
-import { MikroORM } from '@mikro-orm/core'
+import { createConnection } from 'typeorm'
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql'
 
 import { __prod__ } from './constants'
-import mikroOrmConfig from './mikro-orm.config'
+// import { ArchivedItem } from './entities/archive.entity'
+import { Board } from './entities/board.entity'
+import { Label } from './entities/label.entity'
+import { List } from './entities/list.entity'
+import { Member } from './entities/member.entity'
+import { Task } from './entities/task.entity'
 import { BoardResolver } from './resolvers/board.resolver'
 import { TaskResolver } from './resolvers/task.resolver'
 
@@ -13,19 +18,24 @@ import { TaskResolver } from './resolvers/task.resolver'
 // await seedDb(em)
 
 const main = async () => {
-  const orm = await MikroORM.init(mikroOrmConfig)
-  await orm.getMigrator().up()
-  const em = orm.em.fork()
-
-  const app = express()
+  const connection = await createConnection({
+    type: 'postgres',
+    database: 'trellop',
+    logging: true,
+    synchronize: true,
+    migrations: ['./migrations/*'],
+    entities: [Board, List, Task, Label, Member]
+  })
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [BoardResolver, TaskResolver],
-      validate: false
+      dateScalarMode: 'timestamp'
     }),
-    context: () => ({ em })
+    context: ({ req, res }) => ({ req, res })
   })
+
+  const app = express()
 
   await apolloServer.start()
   apolloServer.applyMiddleware({ app })

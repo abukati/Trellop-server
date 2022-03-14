@@ -1,43 +1,43 @@
-import { Collection, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ID, ObjectType } from 'type-graphql'
-import { v4 as uuidv4 } from 'uuid'
+import { BaseEntity, Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Field, ObjectType } from 'type-graphql'
+
 import { Board } from './board.entity'
-import { Task } from './task.entity'
+// import { Task } from './task.entity'
 
 @ObjectType()
 @Entity()
-export class Member {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id = uuidv4()
+export class Member extends BaseEntity {
+  @Field()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
-  @Field({ nullable: true })
-  @Property()
+  @Field()
+  @Column()
   username!: string
 
-  @Field({ nullable: true })
-  @Property()
+  @Field()
+  @Column()
   fullname!: string
 
-  @Field({ nullable: true })
-  @Property({ nullable: true })
-  image: string
+  @Field()
+  @Column({ nullable: true })
+  image?: string
 
-  @Field(() => [ID])
+  @Field(() => [Board])
   @ManyToMany(() => Board, board => board.members)
-  boardsMembership = new Collection<Board['id']>(this)
+  boards: Board[]
 
-  @Field(() => [ID])
-  @ManyToMany(() => Task, task => task.members)
-  taskMembership = new Collection<Task['id']>(this)
+  @Field(() => [Board])
+  @OneToMany(() => Board, board => board.creator)
+  boardsCreated: Board[]
+
+  // @Field(() => [String])
+  // @ManyToMany(() => Task, task => task.members)
+  // taskMembership = new Collection<Task['id'][]>(this)
 
   // @Field(() => [ID])
   // @OneToMany(() => Board, board => board.members)
   // starredIds = new Collection<Board['id']>(this)
-
-  // @Field(() => [ID])
-  // @OneToMany(() => Board, board => board.members)
-  // watchlist = new Collection<Board['id']>(this)
 
   // @Field(_ => [String], { nullable: true })
   // @Property()

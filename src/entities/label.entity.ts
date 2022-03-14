@@ -1,29 +1,29 @@
-import { Collection, Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
-import { Field, ID, ObjectType } from 'type-graphql'
-import { v4 as uuidv4 } from 'uuid'
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Field, ObjectType } from 'type-graphql'
+
 import { Board } from './board.entity'
 import { Task } from './task.entity'
 
 @ObjectType()
 @Entity()
-export class Label {
-  @Field(() => ID)
-  @PrimaryKey({ type: 'uuid', unique: true })
-  id: string = uuidv4()
+export class Label extends BaseEntity {
+  @Field()
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
-  @Field({ nullable: true })
-  @Property({ type: 'text' })
-  title: string
+  @Field()
+  @Column({ nullable: true })
+  title?: string
 
-  @Field({ nullable: true })
-  @Property({ type: 'text' })
-  color: string
+  @Field()
+  @Column()
+  color!: string
 
-  @Field(() => [ID], { nullable: true })
-  @ManyToMany(() => Task, task => task.labels, { nullable: true })
-  taskIds = new Collection<Task['id'][]>(this)
+  @Field(() => [Task])
+  @ManyToMany(() => Task, task => task.labels)
+  tasks: Task[]
 
-  @Field(() => ID)
-  @ManyToOne(() => Board)
-  boardId: Board['id']
+  @Field(() => Board)
+  @ManyToOne(() => Board, board => board.labels)
+  board: Board
 }
