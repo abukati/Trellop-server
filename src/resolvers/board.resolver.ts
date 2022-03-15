@@ -1,15 +1,19 @@
+import { Member } from 'src/entities/member.entity'
 import { Resolver, Query, Arg, Mutation, InputType, Field } from 'type-graphql'
+import { Repository } from 'typeorm'
 
 import { Board } from '../entities/board.entity'
 
 @InputType()
-export class BoardInput extends Board {
+export class BoardInput implements Partial<Board> {
   @Field()
   title: string
 }
 
 @Resolver()
 export class BoardResolver {
+  constructor(private memberRepository: Repository<Member>) {}
+
   @Query(() => [Board])
   async boards(): Promise<Board[]> {
     return Board.find()
@@ -22,10 +26,15 @@ export class BoardResolver {
 
   @Mutation(() => Board)
   async createBoard(@Arg('board') boardInput: BoardInput): Promise<Board | null> {
-    if (!boardInput) {
+    // Default member id, will change to logged user
+    const creator = await this.memberRepository.findOne('3f3a8386-4716-4dd1-8736-3769aeff91fe')
+    if (!boardInput || !creator) {
       return null
     }
-    return Board.create(boardInput).save()
+    const board = new Board()
+    board.title = boardInput.title
+    board.creator = creator
+    return Board.save(board)
   }
 
   @Mutation(() => Board)

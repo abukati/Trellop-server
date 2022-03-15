@@ -35,7 +35,7 @@ export class Board extends BaseEntity {
   @Column()
   title!: string
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   description?: string
 
@@ -43,13 +43,13 @@ export class Board extends BaseEntity {
   @Column('simple-json', { default: { color: '#0079bf', image: undefined } })
   background: { color: string; image?: string }
 
-  @Field(() => [Member])
-  @ManyToMany(() => Member, member => member.boards)
+  @Field(() => [Member], { nullable: true })
+  @ManyToMany(() => Member, member => member.boards, { nullable: true, eager: true })
   @JoinTable()
   members: Member[]
 
   @Field(() => Member)
-  @ManyToOne(() => Member)
+  @ManyToOne(() => Member, { eager: true })
   creator: Member
 
   @Field(() => [List])
